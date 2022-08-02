@@ -23,14 +23,14 @@ if __name__ == '__main__':
     parser.add_argument('--model', default=0)
     parser.add_argument('--resolution')
     parser.add_argument('--output', default='output.png')
-    parser.add_argument('--gpu', default='0')
+    parser.add_argument('--gpu', default='large')
     args = parser.parse_args()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
     img = transforms.ToTensor()(Image.open(args.input).convert('RGB'))
     print("model",args.model)
-    if args.model == 0: 
+    if args.model == "base": 
         model_name = r'/models/liif_base.pth'
     else:
         model_name = r'/models/liif_large.pth'
