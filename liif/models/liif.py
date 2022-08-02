@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 from . import models
 from .models import register
-from utils import make_coord
+from .utils import make_coord
 
 print(model.make)
 @register('liif')
