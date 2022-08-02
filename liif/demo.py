@@ -29,7 +29,7 @@ if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
     img = transforms.ToTensor()(Image.open(args.input).convert('RGB'))
-    print("model",args.models)
+    print("model",args.model)
     if args.model == 0: 
         model_name = r'/models/liif_base.pth'
     else:
