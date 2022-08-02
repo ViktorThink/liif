@@ -31,7 +31,7 @@ if __name__ == '__main__':
     img = transforms.ToTensor()(Image.open(args.input).convert('RGB'))
     print("model",args.model)
     if args.model == "base": 
-        model_name = r'models/liif_base.pth'
+        model_name = r'models/liif_base.py'
     else:
         model_name = r'models/liif_large.pth'
         
