@@ -1,6 +1,6 @@
 # LIIF
 
-This repository contains the official implementation for LIIF introduced in the following paper:
+This repository is a fork of the official implementation for LIIF introduced in the following paper:
 
 [**Learning Continuous Image Representation with Local Implicit Image Function**](https://arxiv.org/abs/2012.09161)
 <br>
