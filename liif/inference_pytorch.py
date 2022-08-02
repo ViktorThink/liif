@@ -5,7 +5,7 @@ from PIL import Image
 import torch
 from torchvision import transforms
 
-from utils import make_coord
+from liif.utils import make_coord
 
 
 def make(model_spec, args=None, load_sd=True):

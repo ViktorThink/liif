@@ -31,9 +31,9 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import MultiStepLR
 
-import datasets
-import models
-import utils
+from liif import datasets
+from liif import models
+from liif import utils
 from test import eval_psnr
 
 

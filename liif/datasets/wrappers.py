@@ -8,8 +8,8 @@ import torch
 from torch.utils.data import Dataset
 from torchvision import transforms
 
-from datasets import register
-from utils import to_pixel_samples
+from liif.datasets import register
+from liif.utils import to_pixel_samples
 
 
 @register('sr-implicit-paired')
