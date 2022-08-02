@@ -5,7 +5,7 @@ from PIL import Image
 import torch
 from torchvision import transforms
 
-import models
+import models.models
 from utils import make_coord
 from test import batched_predict
 
