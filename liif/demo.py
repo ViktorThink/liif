@@ -6,8 +6,8 @@ import torch
 from torchvision import transforms
 
 from liif.models import models
-from utils import make_coord
-from test import batched_predict
+from .utils import make_coord
+from .test import batched_predict
 
 
 if __name__ == '__main__':
