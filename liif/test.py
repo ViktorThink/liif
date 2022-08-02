@@ -8,8 +8,8 @@ import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-import .datasets
-import .models
+import liif.datasets
+import liif.models
 import .utils
 
 
