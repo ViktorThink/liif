@@ -21,7 +21,7 @@ if __name__ == '__main__':
     # parser.add_argument('--gpu', default='0')
     args = parser.parse_args()
 
-    os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
+    # os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
     img = transforms.ToTensor()(Image.open(args.input).convert('RGB'))
     
