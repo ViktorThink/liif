@@ -31,13 +31,13 @@ if __name__ == '__main__':
     img = transforms.ToTensor()(Image.open(args.input).convert('RGB'))
     print("model",args.model)
     if args.model == "base": 
-        model_name = r'/models/liif_base.pth'
+        model_name = r'models/liif_base.pth'
     else:
-        model_name = r'/models/liif_large.pth'
+        model_name = r'models/liif_large.pth'
         
     dir_name = osp.dirname(__file__) or "."
 
-    model_path = osp.join(dir_name, model_name)
+    model_path = osp.join("/".join(os.path.abspath(__file__).split("/")[0:]), model_name)
     print("path",model_path)
     print("current directory", os.getcwd())
     print("Absolute path", os.path.abspath(__file__))
