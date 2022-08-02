@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 import liif.datasets
 import liif.models
-import .utils
+from liif import utils
 
 
 def batched_predict(model, inp, coord, cell, bsize):
