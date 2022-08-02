@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import models
+import .models
 from .models import register
 from utils import make_coord
 
