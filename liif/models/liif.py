@@ -3,10 +3,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 import models
-from models import register
+from .models import register
 from utils import make_coord
 
-
+print(model.make)
 @register('liif')
 class LIIF(nn.Module):
 

@@ -7,7 +7,7 @@ from argparse import Namespace
 import torch
 import torch.nn as nn
 
-from models import register
+from .models import register
 
 
 class RDB_Conv(nn.Module):
