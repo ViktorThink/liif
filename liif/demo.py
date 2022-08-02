@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     img = transforms.ToTensor()(Image.open(args.input).convert('RGB'))
     
-    model = torch.load(args.model)['model']
+    model = torch.load(args.model, map_location=device)['model']
     model = models.make(model, load_sd=True).to(device)
 
     h, w = list(map(int, args.resolution.split(',')))
