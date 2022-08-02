@@ -1,5 +1,6 @@
 import argparse
 import os
+import os.path as osp
 from PIL import Image
 
 import torch
@@ -9,6 +10,10 @@ from liif.models import models
 from .utils import make_coord
 from .test import batched_predict
 
+
+
+
+    
 
 if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -24,8 +29,17 @@ if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
     img = transforms.ToTensor()(Image.open(args.input).convert('RGB'))
+    if args.model == 0:  # x2 RRDBNet model
+        model_name = r'/model/liif_base.pth'
+    elif args.model == 1:  # x4 RRDBNet model
+        model_name = r'/models/liif_large.pth'
+        
+    dir_name = osp.dirname(__file__) or "."
+
+    model_path = osp.join(dir_name, model_name)
+    print("path",model_path)
     
-    model = torch.load(args.model, map_location=device)['model']
+    model = torch.load(model_path, map_location=device)['model']
     model = models.make(model, load_sd=True).to(device)
 
     h, w = list(map(int, args.resolution.split(',')))
