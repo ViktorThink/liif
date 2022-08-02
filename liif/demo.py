@@ -18,14 +18,15 @@ if __name__ == '__main__':
     parser.add_argument('--model')
     parser.add_argument('--resolution')
     parser.add_argument('--output', default='output.png')
-    parser.add_argument('--gpu', default='0')
+    # parser.add_argument('--gpu', default='0')
     args = parser.parse_args()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
     img = transforms.ToTensor()(Image.open(args.input).convert('RGB'))
-
-    model = models.make(torch.load(args.model)['model'], load_sd=True).to(device)
+    
+    model = torch.load(args.model)['model']
+    model = models.make(model, load_sd=True).to(device)
 
     h, w = list(map(int, args.resolution.split(',')))
     coord = make_coord((h, w)).to(device)
