@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', default='input.png')
-    parser.add_argument('--model', default=1)
+    parser.add_argument('--model', default=0)
     parser.add_argument('--resolution')
     parser.add_argument('--output', default='output.png')
     parser.add_argument('--gpu', default='0')
@@ -29,7 +29,8 @@ if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
     img = transforms.ToTensor()(Image.open(args.input).convert('RGB'))
-    if args.model == 0:  # x2 RRDBNet model
+    print("model",args.models)
+    if args.model == 0: 
         model_name = r'/models/liif_base.pth'
     else:
         model_name = r'/models/liif_large.pth'
