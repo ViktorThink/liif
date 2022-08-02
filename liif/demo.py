@@ -40,6 +40,8 @@ if __name__ == '__main__':
     model_path = osp.join(dir_name, model_name)
     print("path",model_path)
     print("current directory", os.getcwd())
+    print("Absolute path", os.path.abspath(__file__))
+    print("Real path",os.path.realpath(__file__))
     
     model = torch.load(model_path, map_location=device)['model']
     model = models.make(model, load_sd=True).to(device)
