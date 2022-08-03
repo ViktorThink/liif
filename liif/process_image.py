@@ -53,8 +53,10 @@ def process_image(model, pil_image, resolution):
 
 def process_frame(model, img, resolution):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-    h, w = list(map(int, resolution.split(',')))
+    if type(resolution) == str:
+        h, w = list(map(int, resolution.split(',')))
+    else:
+        h, w = resolution
     coord = make_coord((h, w)).to(device)
     cell = torch.ones_like(coord)
     cell[:, 0] *= 2 / h
