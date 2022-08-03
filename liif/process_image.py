@@ -38,14 +38,21 @@ def get_model(model_name="large"):
     model = models.make(model, load_sd=True).to(device)
     return model
 
-def process_frame(model, pil_image, resolution, device=None):
-    if device == None:
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+def process_image(model, pil_image, resolution):
 
     img = frame_to_tensor(pil_image)
     logging.warning("shape "+str(img.shape))
     logging.warning("img "+str(img))
+    
+    img = process_frame(model, img, resolution)
+    
+    img = tensor_to_frame(pred)
+    
+    return img
+
+def process_frame(model, img, resolution):
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     h, w = list(map(int, resolution.split(',')))
     coord = make_coord((h, w)).to(device)
@@ -56,7 +63,7 @@ def process_frame(model, pil_image, resolution, device=None):
         coord.unsqueeze(0), cell.unsqueeze(0), bsize=30000)[0]
     pred = (pred * 0.5 + 0.5).clamp(0, 1).view(h, w, 3).permute(2, 0, 1).cpu()
     
-    img = tensor_to_frame(pred)
+    
     return img
 
 
