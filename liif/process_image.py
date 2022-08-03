@@ -19,16 +19,13 @@ def get_model(model_name="large"):
         model_name = r'models/liif_large.pth'
     
     model_path = osp.join("/".join(os.path.abspath(__file__).split("/")[:-1]), model_name)
-    print("path",model_path)
-    print("current directory", os.getcwd())
-    print("Absolute path", os.path.abspath(__file__))
-    print("Real path",os.path.realpath(__file__))
+
     
     model = torch.load(model_path, map_location=device)['model']
     model = models.make(model, load_sd=True).to(device)
     return model
 
-def process_frame(model, pil_image, resolution, device):
+def process_frame(model, pil_image, resolution, device=None):
     if device == None:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -44,7 +41,7 @@ def process_frame(model, pil_image, resolution, device):
         coord.unsqueeze(0), cell.unsqueeze(0), bsize=30000)[0]
     pred = (pred * 0.5 + 0.5).clamp(0, 1).view(h, w, 3).permute(2, 0, 1).cpu()
     
-    img = tensor_to_frame(pil_image)
+    img = tensor_to_frame(pred)
     return img
 
 
