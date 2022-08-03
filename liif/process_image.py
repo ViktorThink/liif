@@ -45,7 +45,7 @@ def process_image(model, pil_image, resolution):
     logging.warning("shape "+str(img.shape))
     logging.warning("img "+str(img))
     
-    img = process_frame(model, img, resolution)
+    pred = process_frame(model, img, resolution)
     
     img = tensor_to_frame(pred)
     
@@ -63,8 +63,7 @@ def process_frame(model, img, resolution):
         coord.unsqueeze(0), cell.unsqueeze(0), bsize=30000)[0]
     pred = (pred * 0.5 + 0.5).clamp(0, 1).view(h, w, 3).permute(2, 0, 1).cpu()
     
-    
-    return img
+    return pred
 
 
 
