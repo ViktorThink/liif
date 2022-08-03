@@ -21,16 +21,18 @@ def get_model(model_name="large"):
 
         
     current_location = os.path.abspath(__file__)
-    logging.info("current_location "+current_location)
+    logging.warning("current_location "+current_location)
     print("current_location "+current_location)
     
     current_location = osp.dirname(__file__)
-    logging.info("current_location "+current_location)
+    logging.warning("current_location "+current_location)
     print("current_location "+current_location)
 
     
-    model_path = osp.join("/".join(current_location.split("/")[:-1]), model_name)
-
+    model_path = osp.join(current_location, model_name)
+    
+    logging.warning("model_path "+model_path)
+    print("model_path "+model_path)
     
     model = torch.load(model_path, map_location=device)['model']
     model = models.make(model, load_sd=True).to(device)
