@@ -20,9 +20,9 @@ def get_model(model_name="large"):
         model_name = r'models/liif_large.pth'
 
         
-    current_location = os.path.abspath(__file__)
-    logging.warning("current_location "+current_location)
-    print("current_location "+current_location)
+    # current_location = os.path.abspath(__file__)
+    # logging.warning("current_location "+current_location)
+    # print("current_location "+current_location)
     
     current_location = osp.dirname(__file__)
     logging.warning("current_location "+current_location)
@@ -44,6 +44,8 @@ def process_frame(model, pil_image, resolution, device=None):
 
 
     img = frame_to_tensor(pil_image)
+    logging.warning("shape "+str(img.shape))
+    logging.warning("img "+str(img))
 
     h, w = list(map(int, resolution.split(',')))
     coord = make_coord((h, w)).to(device)
