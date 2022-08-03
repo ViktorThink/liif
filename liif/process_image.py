@@ -11,7 +11,7 @@ from .utils import make_coord
 from .test import batched_predict
 
 
-def get_model(model_name)
+def get_model(model_name):
     if model_name == "base": 
         model_name = r'models/liif_base.py'
     else:
