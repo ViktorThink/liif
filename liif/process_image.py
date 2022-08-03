@@ -22,9 +22,11 @@ def get_model(model_name="large"):
         
     current_location = os.path.abspath(__file__)
     logging.info("current_location "+current_location)
+    print("current_location "+current_location)
     
     current_location = osp.dirname(__file__)
     logging.info("current_location "+current_location)
+    print("current_location "+current_location)
 
     
     model_path = osp.join("/".join(current_location.split("/")[:-1]), model_name)
