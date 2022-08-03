@@ -10,6 +10,7 @@ from liif.models import models
 from .utils import make_coord
 from .test import batched_predict
 
+import logging
 
 def get_model(model_name="large"):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -17,8 +18,16 @@ def get_model(model_name="large"):
         model_name = r'models/liif_base.py'
     else:
         model_name = r'models/liif_large.pth'
+
+        
+    current_location = os.path.abspath(__file__)
+    logging.info("current_location "+current_location)
     
-    model_path = osp.join("/".join(os.path.abspath(__file__).split("/")[:-1]), model_name)
+    current_location = osp.dirname(__file__)
+    logging.info("current_location "+current_location)
+
+    
+    model_path = osp.join("/".join(current_location.split("/")[:-1]), model_name)
 
     
     model = torch.load(model_path, map_location=device)['model']
