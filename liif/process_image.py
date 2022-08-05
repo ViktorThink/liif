@@ -60,8 +60,8 @@ def get_onnx_model(model_name="base"):
 def process_image(model, pil_image, resolution):
 
     img = frame_to_tensor(pil_image)
-    logging.warning("shape "+str(img.shape))
-    logging.warning("img "+str(img))
+    # logging.warning("shape "+str(img.shape))
+    # logging.warning("img "+str(img))
     
     pred = process_frame(model, img, resolution)
     
