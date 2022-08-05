@@ -27,7 +27,6 @@ class LIIF_ONNX(nn.Module):
 
     def gen_feat(self, inp):
         inp = inp.numpy().astype(np.float32)
-        self.feat 
         out = self.encoder(inp)[0]
         self.feat = torch.from_numpy(out)
         return self.feat
