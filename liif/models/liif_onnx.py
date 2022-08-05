@@ -19,15 +19,15 @@ class LIIF_ONNX(nn.Module):
         self.feat_unfold = feat_unfold
         self.cell_decode = cell_decode
 
-        self.encoder = ort_session = ort.InferenceSession(encoder_path)
+        self.encoder = ort.InferenceSession(encoder_path)
         
-        self.imnet = ort_session = ort.InferenceSession(imnet_path)
+        self.imnet = ort.InferenceSession(imnet_path)
 
 
 
     def gen_feat(self, inp):
         inp = inp.numpy().astype(np.float32)
-        out = self.encoder(inp)[0]
+        out = self.encoder.run(None,{"input":inp})[0]
         self.feat = torch.from_numpy(out)
         return self.feat
 
@@ -91,8 +91,7 @@ class LIIF_ONNX(nn.Module):
                 bs, q = coord.shape[:2]
                 
                 imnet_input = inp.view(bs * q, -1).numpy().astype(np.float32)
-                pred 
-                out = self.imnet(imnet_input)[0]
+                out = self.imnet.run(None,{"input":imnet_input})[0]
                 pred = torch.from_numpy(out)
                 preds.append(pred)
 
