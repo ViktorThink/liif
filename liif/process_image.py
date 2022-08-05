@@ -7,7 +7,6 @@ import torch
 from torchvision import transforms
 
 from liif.models import models
-from liif.models.liif_onnx import LIIF_ONNX
 
 from .utils import make_coord
 from .test import batched_predict
@@ -42,6 +41,8 @@ def get_model(model_name="base"):
 
 
 def get_onnx_model(model_name="base"):
+    from liif.models.liif_onnx import LIIF_ONNX
+
     if model_name == "base": 
         encoder = r'models/base_encoder.onnx.py'
         imnet = r'models/base_imnet.onnx.py'
