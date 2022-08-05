@@ -40,7 +40,7 @@ class LIIF_ONNX(nn.Module):
         inp = inp.numpy().astype(np.float32)
         out = self.encoder.run(None,{"input":inp})[0]
         self.feat = torch.from_numpy(out)
-        logging.warning("Gen feat time: "+str(time.time()-startTime))
+        logging.warning("Gen feat time: "+str(time.time()-start_time))
         return self.feat
 
     def query_rgb(self, coord, cell=None):
@@ -118,7 +118,7 @@ class LIIF_ONNX(nn.Module):
         ret = 0
         for pred, area in zip(preds, areas):
             ret = ret + pred * (area / tot_area).unsqueeze(-1)
-        logging.warning("query_rgb time: "+str(time.time()-startTime))
+        logging.warning("query_rgb time: "+str(time.time()-start_time))
         return ret
 
     def forward(self, inp, coord, cell):
