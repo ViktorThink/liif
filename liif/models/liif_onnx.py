@@ -7,6 +7,7 @@ from .models import register
 from ..utils import make_coord
 
 import numpy as np
+import onnxruntime as ort
 
 @register('liif')
 class LIIF_ONNX(nn.Module):
