@@ -55,9 +55,8 @@ class LIIF_ONNX(nn.Module):
         rx = 2 / feat.shape[-2] / 2
         ry = 2 / feat.shape[-1] / 2
         
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        feat_coord = make_coord(feat.shape[-2:], flatten=False).to(device) \
+        feat_coord = make_coord(feat.shape[-2:], flatten=False) \
             .permute(2, 0, 1) \
             .unsqueeze(0).expand(feat.shape[0], 2, *feat.shape[-2:])
 

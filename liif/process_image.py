@@ -70,23 +70,36 @@ def process_image(model, pil_image, resolution):
     
     return img
 
+# def process_frame(model, img, resolution):
+#     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#     if type(resolution) == str:
+#         h, w = list(map(int, resolution.split(',')))
+#     else:
+#         h, w = resolution
+#     coord = make_coord((h, w)).to(device)
+#     cell = torch.ones_like(coord)
+#     cell[:, 0] *= 2 / h
+#     cell[:, 1] *= 2 / w
+#     pred = batched_predict(model, ((img - 0.5) / 0.5).to(device).unsqueeze(0),
+#         coord.unsqueeze(0), cell.unsqueeze(0), bsize=30000)[0]
+#     pred = (pred * 0.5 + 0.5).clamp(0, 1).view(h, w, 3).permute(2, 0, 1).cpu()
+    
+#     return pred
+
 def process_frame(model, img, resolution):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if type(resolution) == str:
         h, w = list(map(int, resolution.split(',')))
     else:
         h, w = resolution
-    coord = make_coord((h, w)).to(device)
+    coord = make_coord((h, w))
     cell = torch.ones_like(coord)
     cell[:, 0] *= 2 / h
     cell[:, 1] *= 2 / w
-    pred = batched_predict(model, ((img - 0.5) / 0.5).to(device).unsqueeze(0),
+    pred = batched_predict(model, ((img - 0.5) / 0.5).unsqueeze(0),
         coord.unsqueeze(0), cell.unsqueeze(0), bsize=30000)[0]
     pred = (pred * 0.5 + 0.5).clamp(0, 1).view(h, w, 3).permute(2, 0, 1).cpu()
     
     return pred
-
-
 
 def frame_to_tensor(pil_image):
     img = transforms.ToTensor()(pil_image.convert('RGB'))
