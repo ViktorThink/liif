@@ -6,6 +6,9 @@ from . import models
 from .models import register
 from ..utils import make_coord
 
+import logging
+import time
+
 @register('liif')
 class LIIF(nn.Module):
 
@@ -30,12 +33,17 @@ class LIIF(nn.Module):
             self.imnet = None
 
     def gen_feat(self, inp):
+        start_time=time.time()
+        logging.warning("Gen feat start")
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         inp = inp.to(device)
         self.feat = self.encoder(inp)
+        logging.warning("Gen feat time: "+str(time.time()-startTime))
         return self.feat
 
     def query_rgb(self, coord, cell=None):
+        start_time=time.time()
+        logging.warning("query_rgb start")
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         coord = coord.to(device)
         if cell != None:
@@ -111,6 +119,7 @@ class LIIF(nn.Module):
         ret = 0
         for pred, area in zip(preds, areas):
             ret = ret + pred * (area / tot_area).unsqueeze(-1)
+        logging.warning("query_rgb time: "+str(time.time()-startTime))
         return ret
 
     def forward(self, inp, coord, cell):

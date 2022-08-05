@@ -9,6 +9,9 @@ from ..utils import make_coord
 import numpy as np
 import onnxruntime as ort
 
+import logging
+import time
+
 @register('liif')
 class LIIF_ONNX(nn.Module):
 
@@ -32,12 +35,17 @@ class LIIF_ONNX(nn.Module):
 
 
     def gen_feat(self, inp):
+        start_time=time.time()
+        logging.warning("Gen feat start")
         inp = inp.numpy().astype(np.float32)
         out = self.encoder.run(None,{"input":inp})[0]
         self.feat = torch.from_numpy(out)
+        logging.warning("Gen feat time: "+str(time.time()-startTime))
         return self.feat
 
     def query_rgb(self, coord, cell=None):
+        start_time=time.time()
+        logging.warning("query_rgb start")
         feat = self.feat
 
         if self.imnet is None:
@@ -110,6 +118,7 @@ class LIIF_ONNX(nn.Module):
         ret = 0
         for pred, area in zip(preds, areas):
             ret = ret + pred * (area / tot_area).unsqueeze(-1)
+        logging.warning("query_rgb time: "+str(time.time()-startTime))
         return ret
 
     def forward(self, inp, coord, cell):
