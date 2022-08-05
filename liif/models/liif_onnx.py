@@ -13,13 +13,15 @@ import onnxruntime as ort
 class LIIF_ONNX(nn.Module):
 
     def __init__(self, encoder_path, imnet_path,
-                 local_ensemble=True, feat_unfold=True, cell_decode=True):
+                 local_ensemble=True, feat_unfold=True, cell_decode=True, providers=None):
         super().__init__()
         self.local_ensemble = local_ensemble
         self.feat_unfold = feat_unfold
         self.cell_decode = cell_decode
         
-        
+        if providers != None:
+            self.encoder = ort.InferenceSession(encoder_path,providers=providers)
+            self.imnet = ort.InferenceSession(imnet_path, providers=providers)
         if ort.get_device() =="GPU":
             self.encoder = ort.InferenceSession(encoder_path,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'])
             self.imnet = ort.InferenceSession(imnet_path, providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'])
