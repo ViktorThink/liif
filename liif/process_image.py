@@ -51,7 +51,8 @@ def get_onnx_model(model_name="base"):
         
     current_location = osp.dirname(__file__)
 
-    model_path = osp.join(current_location, model_name)
+    encoder = osp.join(current_location, encoder)
+    imnet = osp.join(current_location, imnet)
     model = LIIF_ONNX(encoder, imnet)
     return model
 
