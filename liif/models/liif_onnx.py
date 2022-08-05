@@ -35,12 +35,14 @@ class LIIF_ONNX(nn.Module):
 
 
     def gen_feat(self, inp):
-        start_time=time.time()
+        
         logging.warning("Gen feat start")
         inp = inp.numpy().astype(np.float32)
+        start_time=time.time()
         out = self.encoder.run(None,{"input":inp})[0]
-        self.feat = torch.from_numpy(out)
         logging.warning("Gen feat time: "+str(time.time()-start_time))
+        self.feat = torch.from_numpy(out)
+        
         return self.feat
 
     def query_rgb(self, coord, cell=None):
