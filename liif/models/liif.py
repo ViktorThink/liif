@@ -38,7 +38,7 @@ class LIIF(nn.Module):
     def query_rgb(self, coord, cell=None):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         coord = coord.to(device)
-        if cell:
+        if cell != None:
             cell = cell.to(device)
         
         feat = self.feat
