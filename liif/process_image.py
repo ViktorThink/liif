@@ -7,6 +7,8 @@ import torch
 from torchvision import transforms
 
 from liif.models import models
+from liif.models.liif_onnx import LIIF_ONNX
+
 from .utils import make_coord
 from .test import batched_predict
 
@@ -41,16 +43,17 @@ def get_model(model_name="base"):
 
 def get_onnx_model(model_name="base"):
     if model_name == "base": 
-        model_name = r'models/liif_base.onnx.py'
+        encoder = r'models/base_encoder.onnx.py'
+        imnet = r'models/base_imnet.onnx.py'
     else:
-        model_name = r'models/liif_large.onnx.pth'
+        encoder = r'models/base_encoder.onnx.py'
+        imnet = r'models/base_imnet.onnx.py'
         
     current_location = osp.dirname(__file__)
-    # logging.warning("current_location "+current_location)
-    # print("current_location "+current_location)
 
-    
     model_path = osp.join(current_location, model_name)
+    model = LIIF_ONNX(encoder, imnet)
+    return model
 
         
 def process_image(model, pil_image, resolution):

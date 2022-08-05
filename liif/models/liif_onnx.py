@@ -6,25 +6,29 @@ from . import models
 from .models import register
 from ..utils import make_coord
 
-@register('liif')
-class LIIF(nn.Module):
+import numpy as np
 
-    def __init__(self, encoder_path, imnet_spec=None,
+@register('liif')
+class LIIF_ONNX(nn.Module):
+
+    def __init__(self, encoder_path, imnet_path,
                  local_ensemble=True, feat_unfold=True, cell_decode=True):
         super().__init__()
         self.local_ensemble = local_ensemble
         self.feat_unfold = feat_unfold
         self.cell_decode = cell_decode
 
-        self.encoder = models.make(encoder_spec)
+        self.encoder = ort_session = ort.InferenceSession(encoder_path)
         
-        
-        self.imnet
+        self.imnet = ort_session = ort.InferenceSession(imnet_path)
 
 
 
     def gen_feat(self, inp):
-        self.feat = self.encoder(inp)
+        inp = inp.numpy().astype(np.float32)
+        self.feat 
+        out = self.encoder(inp)[0]
+        self.feat = torch.from_numpy(out)
         return self.feat
 
     def query_rgb(self, coord, cell=None):
@@ -85,7 +89,11 @@ class LIIF(nn.Module):
                     inp = torch.cat([inp, rel_cell], dim=-1)
 
                 bs, q = coord.shape[:2]
-                pred = self.imnet(inp.view(bs * q, -1)).view(bs, q, -1)
+                
+                imnet_input = inp.view(bs * q, -1).numpy().astype(np.float32)
+                pred 
+                out = self.imnet(imnet_input)[0]
+                pred = torch.from_numpy(out)
                 preds.append(pred)
 
                 area = torch.abs(rel_coord[:, :, 0] * rel_coord[:, :, 1])
