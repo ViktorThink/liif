@@ -97,7 +97,9 @@ class LIIF(nn.Module):
                 area = torch.abs(rel_coord[:, :, 0] * rel_coord[:, :, 1])
                 areas.append(area + 1e-9)
         import logging
-        logging.warning("Shape imnet",str(inp.view(bs * q, -1).shape))
+        logging.warning("Shape imnet"+str(inp.view(bs * q, -1).shape))
+        logging.warning("bs"+str(bs))
+        logging.warning("q"+str(q))
         tot_area = torch.stack(areas).sum(dim=0)
         if self.local_ensemble:
             t = areas[0]; areas[0] = areas[3]; areas[3] = t
