@@ -18,10 +18,14 @@ class LIIF_ONNX(nn.Module):
         self.local_ensemble = local_ensemble
         self.feat_unfold = feat_unfold
         self.cell_decode = cell_decode
-
-        self.encoder = ort.InferenceSession(encoder_path)
         
-        self.imnet = ort.InferenceSession(imnet_path)
+        
+        if ort.get_device() =="GPU":
+            self.encoder = ort.InferenceSession(encoder_path,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'])
+            self.imnet = ort.InferenceSession(imnet_path, providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'])
+        else:
+            self.encoder = ort.InferenceSession(encoder_path)
+            self.imnet = ort.InferenceSession(imnet_path)
 
 
 
