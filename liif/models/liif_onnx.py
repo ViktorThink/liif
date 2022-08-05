@@ -9,7 +9,7 @@ from ..utils import make_coord
 @register('liif')
 class LIIF(nn.Module):
 
-    def __init__(self, encoder_spec, imnet_spec=None,
+    def __init__(self, encoder_path, imnet_spec=None,
                  local_ensemble=True, feat_unfold=True, cell_decode=True):
         super().__init__()
         self.local_ensemble = local_ensemble
@@ -17,17 +17,11 @@ class LIIF(nn.Module):
         self.cell_decode = cell_decode
 
         self.encoder = models.make(encoder_spec)
+        
+        
+        self.imnet
 
-        if imnet_spec is not None:
-            imnet_in_dim = self.encoder.out_dim
-            if self.feat_unfold:
-                imnet_in_dim *= 9
-            imnet_in_dim += 2 # attach coord
-            if self.cell_decode:
-                imnet_in_dim += 2
-            self.imnet = models.make(imnet_spec, args={'in_dim': imnet_in_dim})
-        else:
-            self.imnet = None
+
 
     def gen_feat(self, inp):
         self.feat = self.encoder(inp)

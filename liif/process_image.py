@@ -12,7 +12,7 @@ from .test import batched_predict
 
 import logging
 
-def get_model(model_name="large"):
+def get_model(model_name="base"):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if model_name == "base": 
         model_name = r'models/liif_base.py'
@@ -25,20 +25,34 @@ def get_model(model_name="large"):
     # print("current_location "+current_location)
     
     current_location = osp.dirname(__file__)
-    logging.warning("current_location "+current_location)
-    print("current_location "+current_location)
+    # logging.warning("current_location "+current_location)
+    # print("current_location "+current_location)
 
     
     model_path = osp.join(current_location, model_name)
     
-    logging.warning("model_path "+model_path)
-    print("model_path "+model_path)
+    # logging.warning("model_path "+model_path)
+    # print("model_path "+model_path)
     
     model = torch.load(model_path, map_location=device)['model']
     model = models.make(model, load_sd=True).to(device)
     return model
 
 
+def get_onnx_model(model_name="base"):
+    if model_name == "base": 
+        model_name = r'models/liif_base.onnx.py'
+    else:
+        model_name = r'models/liif_large.onnx.pth'
+        
+    current_location = osp.dirname(__file__)
+    # logging.warning("current_location "+current_location)
+    # print("current_location "+current_location)
+
+    
+    model_path = osp.join(current_location, model_name)
+
+        
 def process_image(model, pil_image, resolution):
 
     img = frame_to_tensor(pil_image)
