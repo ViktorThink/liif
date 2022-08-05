@@ -31,7 +31,7 @@ class LIIF(nn.Module):
 
     def gen_feat(self, inp):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        inp.to(device)
+        inp = inp.to(device)
         self.feat = self.encoder(inp)
         return self.feat
 
@@ -112,7 +112,7 @@ class LIIF(nn.Module):
 
     def forward(self, inp, coord, cell):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        inp.to(device)
-        coord.to(device)
+        inp = inp.to(device)
+        coord = coord.to(device)
         self.gen_feat(inp)
         return self.query_rgb(coord, cell)
