@@ -18,7 +18,7 @@ class LIIF_ONNX(nn.Module):
         self.local_ensemble = local_ensemble
         self.feat_unfold = feat_unfold
         self.cell_decode = cell_decode
-        sess_options = rt.SessionOptions()
+        sess_options = ort.SessionOptions()
         
         sess_options.intra_op_num_threads = 10
         sess_options.execution_mode = ort.ExecutionMode.ORT_PARALLEL
