@@ -25,7 +25,7 @@ class LIIF_ONNX(nn.Module):
         if providers != None:
             self.encoder = ort.InferenceSession(encoder_path,providers=providers)
             self.imnet = ort.InferenceSession(imnet_path, providers=providers)
-        if ort.get_device() =="GPU":
+        elif ort.get_device() =="GPU":
             self.encoder = ort.InferenceSession(encoder_path,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'])
             self.imnet = ort.InferenceSession(imnet_path, providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'])
         else:
