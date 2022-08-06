@@ -18,13 +18,17 @@ class LIIF_ONNX(nn.Module):
         self.local_ensemble = local_ensemble
         self.feat_unfold = feat_unfold
         self.cell_decode = cell_decode
+        sess_options = rt.SessionOptions()
+        
+        sess_options.intra_op_num_threads = 10
+        sess_options.execution_mode = rt.ExecutionMode.ORT_PARALLEL
         
         if providers != None:
-            self.encoder = ort.InferenceSession(encoder_path,providers=providers)
-            self.imnet = ort.InferenceSession(imnet_path, providers=providers)
+            self.encoder = ort.InferenceSession(encoder_path,providers=providers, sess_options=so)
+            self.imnet = ort.InferenceSession(imnet_path, providers=providers, sess_options=so)
         elif ort.get_device() =="GPU":
-            self.encoder = ort.InferenceSession(encoder_path,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'])
-            self.imnet = ort.InferenceSession(imnet_path, providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'])
+            self.encoder = ort.InferenceSession(encoder_path,providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'], sess_options=so)
+            self.imnet = ort.InferenceSession(imnet_path, providers=['TensorrtExecutionProvider', 'CUDAExecutionProvider'], sess_options=so)
         else:
             self.encoder = ort.InferenceSession(encoder_path)
             self.imnet = ort.InferenceSession(imnet_path)
