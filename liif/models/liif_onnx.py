@@ -21,7 +21,7 @@ class LIIF_ONNX(nn.Module):
         sess_options = rt.SessionOptions()
         
         sess_options.intra_op_num_threads = 10
-        sess_options.execution_mode = rt.ExecutionMode.ORT_PARALLEL
+        sess_options.execution_mode = ort.ExecutionMode.ORT_PARALLEL
         
         if providers != None:
             self.encoder = ort.InferenceSession(encoder_path,providers=providers, sess_options=so)
