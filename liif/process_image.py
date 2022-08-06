@@ -54,7 +54,7 @@ def get_onnx_model(model_name="base",providers=None):
 
     encoder = osp.join(current_location, encoder)
     imnet = osp.join(current_location, imnet)
-    model = LIIF_ONNX(encoder, imnet, providers)
+    model = LIIF_ONNX(encoder, imnet, providers=providers)
     return model
 
         

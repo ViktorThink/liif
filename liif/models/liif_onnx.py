@@ -15,8 +15,7 @@ import time
 @register('liif')
 class LIIF_ONNX(nn.Module):
 
-    def __init__(self, encoder_path, imnet_path,
-                 local_ensemble=True, feat_unfold=True, cell_decode=True, providers=None):
+    def __init__(self, encoder_path, imnet_path, local_ensemble=True, feat_unfold=True, cell_decode=True, providers=None):
         super().__init__()
         self.local_ensemble = local_ensemble
         self.feat_unfold = feat_unfold
