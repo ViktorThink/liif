@@ -13,15 +13,17 @@ import onnxruntime as ort
 @register('liif')
 class LIIF_ONNX(nn.Module):
 
-    def __init__(self, encoder_path, imnet_path, local_ensemble=True, feat_unfold=True, cell_decode=True, providers=None):
+    def __init__(self, encoder_path, imnet_path, local_ensemble=True, feat_unfold=True, cell_decode=True, providers=None, sess_options=None):
         super().__init__()
         self.local_ensemble = local_ensemble
         self.feat_unfold = feat_unfold
         self.cell_decode = cell_decode
-        sess_options = ort.SessionOptions()
         
-        sess_options.intra_op_num_threads = 10
-        sess_options.execution_mode = ort.ExecutionMode.ORT_PARALLEL
+        if sess_options == None
+            sess_options = ort.SessionOptions()
+            
+            sess_options.intra_op_num_threads = 10
+            sess_options.execution_mode = ort.ExecutionMode.ORT_PARALLEL
         
         if providers != None:
             self.encoder = ort.InferenceSession(encoder_path,providers=providers, sess_options=sess_options)
