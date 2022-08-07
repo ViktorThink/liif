@@ -40,7 +40,7 @@ def get_model(model_name="base"):
     return model
 
 
-def get_onnx_model(model_name="base",providers=None):
+def get_onnx_model(model_name="base",providers=None, sess_options=None):
     from liif.models.liif_onnx import LIIF_ONNX
 
     if model_name == "base": 
@@ -54,7 +54,7 @@ def get_onnx_model(model_name="base",providers=None):
 
     encoder = osp.join(current_location, encoder)
     imnet = osp.join(current_location, imnet)
-    model = LIIF_ONNX(encoder, imnet, providers=providers)
+    model = LIIF_ONNX(encoder, imnet, providers=providers,sess_options=sess_options)
     return model
 
         
