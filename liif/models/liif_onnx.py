@@ -19,7 +19,7 @@ class LIIF_ONNX(nn.Module):
         self.feat_unfold = feat_unfold
         self.cell_decode = cell_decode
         
-        if sess_options == None
+        if sess_options == None:
             sess_options = ort.SessionOptions()
             
             sess_options.intra_op_num_threads = 10
