@@ -15,6 +15,7 @@ import logging
 
 def get_model(model_name="base"):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    from liif.models.LIIF import LIIF
     if model_name == "base": 
         model_name = r'models/liif_base.py'
     else:

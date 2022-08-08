@@ -21,7 +21,9 @@ class LIIF_ONNX(nn.Module):
         
         if sess_options == None:
             sess_options = ort.SessionOptions()
-
+            
+            sess_options.intra_op_num_threads = 10
+            sess_options.execution_mode = ort.ExecutionMode.ORT_PARALLEL
         
         if providers != None:
             self.encoder = ort.InferenceSession(encoder_path,providers=providers, sess_options=sess_options)
@@ -32,40 +34,13 @@ class LIIF_ONNX(nn.Module):
         else:
             self.encoder = ort.InferenceSession(encoder_path)
             self.imnet = ort.InferenceSession(imnet_path)
-        self.encoder_binding = self.encoder.io_binding()
-        self.imnet_binding = self.imnet.io_binding()
-
 
 
 
     def gen_feat(self, inp):
         
-        binding = self.encoder.io_binding()
-        binding.bind_input(
-            name='input',
-            device_type='cuda',
-            device_id=0,
-            element_type=np.float32,
-            shape=tuple(inp.shape),
-            buffer_ptr=inp.data_ptr(),
-            )
-        
-        
-        Y_shape = list(tuple(inp.shape)) # You need to specify the output PyTorch tensor shape
-        Y_shape[1]=64
-        Y_tensor = torch.empty(Y_shape, dtype=torch.float32, device='cuda').contiguous()
-        binding.bind_output(
-            name='output',
-            device_type='cuda',
-            device_id=0,
-            element_type=np.float32,
-            shape=tuple(Y_shape),
-            buffer_ptr=Y_tensor.data_ptr(),
-        )
-
-        self.encoder.run_with_iobinding(binding)
-        out = binding.get_outputs()[0]
-        
+        inp = inp.numpy().astype(np.float32)
+        out = self.encoder.run(None,{"input":inp})[0]
         self.feat = torch.from_numpy(out)
         
         return self.feat
