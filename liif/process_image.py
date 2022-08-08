@@ -40,6 +40,23 @@ def get_model(model_name="base"):
     model = models.make(model, load_sd=True).to(device)
     return model
 
+def get_onnx_model_cpu(model_name="base",providers=None, sess_options=None):
+    from liif.models.liif_onnx_cpu import LIIF_ONNX_CPU
+
+    if model_name == "base": 
+        encoder = r'models/base_encoder.onnx.py'
+        imnet = r'models/base_imnet.onnx.py'
+    else:
+        encoder = r'models/base_encoder.onnx.py'
+        imnet = r'models/base_imnet.onnx.py'
+        
+    current_location = osp.dirname(__file__)
+
+    encoder = osp.join(current_location, encoder)
+    imnet = osp.join(current_location, imnet)
+    model = LIIF_ONNX_CPU(encoder, imnet, providers=providers,sess_options=sess_options)
+    return model
+
 
 def get_onnx_model(model_name="base",providers=None, sess_options=None):
     from liif.models.liif_onnx import LIIF_ONNX

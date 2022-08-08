@@ -11,7 +11,7 @@ import onnxruntime as ort
 
 
 @register('liif')
-class LIIF_ONNX(nn.Module):
+class LIIF_ONNX_CPU(nn.Module):
 
     def __init__(self, encoder_path, imnet_path, local_ensemble=True, feat_unfold=True, cell_decode=True, providers=None, sess_options=None):
         super().__init__()
