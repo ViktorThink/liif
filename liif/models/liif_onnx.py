@@ -129,8 +129,39 @@ class LIIF_ONNX(nn.Module):
 
                 bs, q = coord.shape[:2]
                 
-                imnet_input = inp.view(bs * q, -1).numpy().astype(np.float32)
-                out = self.imnet.run(None,{"input":imnet_input})[0]
+                inp = inp.view(bs * q, -1)
+                
+                
+                inp = inp.cuda()
+                
+                binding = self.imnet.io_binding()
+                binding.bind_input(
+                    name='input',
+                    device_type='cuda',
+                    device_id=0,
+                    element_type=np.float32,
+                    shape=tuple(inp.shape),
+                    buffer_ptr=inp.data_ptr(),
+                    )
+                
+                
+                Y_shape = list(tuple(inp.shape)) # You need to specify the output PyTorch tensor shape
+                Y_shape[1]=3
+                Y_tensor = torch.empty(Y_shape, dtype=torch.float32, device='cuda').contiguous()
+                binding.bind_output(
+                    name='output',
+                    device_type='cuda',
+                    device_id=0,
+                    element_type=np.float32,
+                    shape=tuple(Y_shape),
+                    buffer_ptr=Y_tensor.data_ptr(),
+                )        
+                
+                
+                
+                self.imnet.run_with_iobinding(binding)
+                out = binding.copy_outputs_to_cpu()[0]
+                
                 pred = torch.from_numpy(out)
                 preds.append(pred)
 
