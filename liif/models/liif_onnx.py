@@ -39,7 +39,7 @@ class LIIF_ONNX(nn.Module):
 
 
     def gen_feat(self, inp):
-        inp.cuda()
+        inp = inp.cuda()
         
         binding = self.encoder.io_binding()
         binding.bind_input(
