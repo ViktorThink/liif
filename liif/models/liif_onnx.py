@@ -39,6 +39,7 @@ class LIIF_ONNX(nn.Module):
 
 
     def gen_feat(self, inp):
+        inp.cuda()
         
         binding = self.encoder.io_binding()
         binding.bind_input(
@@ -64,7 +65,7 @@ class LIIF_ONNX(nn.Module):
         )
 
         self.encoder.run_with_iobinding(binding)
-        out = binding.get_outputs()[0]
+        out = binding.copy_outputs_to_cpu()[0]
         
         self.feat = torch.from_numpy(out)
         
